@@ -1,0 +1,19 @@
+.flex {
+	display: flex;
+}
+
+.flex-1 {
+	flex: 1;
+}
+
+.greyBorderTop {
+	border-top: 1.5px solid #CCCCCC;
+}
+
+.cursorPointer {
+	cursor: pointer;
+}
+
+.maxWidth50 {
+	max-width: 75%;
+}

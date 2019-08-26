@@ -1,26 +1,69 @@
 import React from 'react';
-import logo from './logo.svg';
+
+import SearchForm from './SearchForm/SearchForm';
+import BookList from './BookList/BookList';
+import BookDetailsPage from './BookDetailsPage/BookDetailsPage';
+
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+	
+	constructor() {
+		super();
+		
+		this.state = {
+			searchResults: null,
+			bookPageData: null,
+			showBookPage: false
+		};
+	}
+	
+	showBookPage = (item) => {
+		this.setState({
+			bookPageData: item,
+			showBookPage: true
+		});
+	}
+	
+	backToSearchResults = () => {
+		this.setState({showBookPage: false});
+	}
+	
+	receiveSearchResults = (json) => {
+		this.setState({searchResults: json});
+	}
+	
+	render() {
+		
+		let pageContent;
+		
+		if(this.state.showBookPage) {
+			pageContent = (
+				<BookDetailsPage
+					item={this.state.bookPageData}
+					backToSearchResults={this.backToSearchResults}
+				/>
+			);
+		}
+		else {
+			pageContent = (<>
+				<SearchForm
+					receiveSearchResults={this.receiveSearchResults}
+				/>
+				<BookList
+					searchResults={this.state.searchResults}
+					showBookPage={this.showBookPage}
+				/>
+			</>);
+		}
+		
+		return (
+			<main className='App'>
+				<h1 className="title">Google Book Search</h1>
+				{pageContent}
+			</main>
+		);
+	}
 }
 
 export default App;
